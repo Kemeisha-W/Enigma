@@ -24,7 +24,6 @@ public class ImageManager {
 
 	public static BufferedImage loadBufferedImage(String filename) {
 		BufferedImage bi = null;
-
 		File file = new File (filename);
 		try {
 			bi = ImageIO.read(file);

@@ -7,7 +7,6 @@ public class Player {
     public int numDisks;
     public int correctCounter=0;
     public int hearts= 3;
-    public String name;
     public Disk[] disks ;
     public ArrayList<String> questions;
     public HashMap<String, Integer>  answer;
@@ -55,6 +54,5 @@ public class Player {
 
         System.out.println(answer);
     }
-    public void setName(String name){this.name=name;}
 
 }
