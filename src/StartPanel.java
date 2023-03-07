@@ -19,12 +19,15 @@ public class StartPanel extends JPanel {
 
 	public StartPanel(int width) {
 		GridBagLayout gb = new GridBagLayout();
-		GridBagConstraints gcon = new GridBagConstraints();
-		gcon.fill = GridBagConstraints.HORIZONTAL;
-		gcon.insets = new Insets(5,3,5,3);
+		GridBagConstraints gbCon = new GridBagConstraints();
+		gbCon.fill = GridBagConstraints.HORIZONTAL;
+		gbCon.insets = new Insets(5,3,5,3);
+
 		//Insert background image
 		backgroundImage = ImageManager.loadBufferedImage("Assets/images/Enigma_Start2 (Custom).png");
 		image = new BufferedImage(width, 907, BufferedImage.TYPE_INT_RGB);
+
+		//Insert Custom Buttons
 		startB = new ButtonCustom();
 		startB.setPreferredSize(new Dimension(200, 50));
 		startB.setFont(new Font("Arial", Font.PLAIN, 20 ));
@@ -42,12 +45,14 @@ public class StartPanel extends JPanel {
 		infoB.setText("Game Information");
 		infoB.setRound(30);
 		infoB.setStyle(ButtonCustom.ButtonStyle.SECONDARY);
-		gcon.gridx = 0;
-		gcon.gridy = 0;
+		setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+
+		gbCon.gridx = 0;
+		gbCon.gridy = 0;
 		add(startB);
 
-		gcon.gridx = 0;
-		gcon.gridy = 1;
+		gbCon.gridx = 0;
+		gbCon.gridy = 1;
 		add(infoB);
 		setLayout(gb);
 	}

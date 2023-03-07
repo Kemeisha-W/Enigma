@@ -2,7 +2,6 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.font.TextLayout;
 
 public class MenuPanel extends JPanel {
     public ButtonCustom englishB;
@@ -31,9 +30,9 @@ public class MenuPanel extends JPanel {
 
         //Add Layout constrictions
         GridBagLayout gb = new GridBagLayout();
-        GridBagConstraints gcon = new GridBagConstraints();
-        gcon.fill = GridBagConstraints.HORIZONTAL;
-        gcon.insets = new Insets(5,3,5,3);
+        GridBagConstraints gbCon = new GridBagConstraints();
+        gbCon.fill = GridBagConstraints.HORIZONTAL;
+        gbCon.insets = new Insets(5,3,5,3);
 
         //Create Label
         JLabel label = new JLabel("Choose your category");
@@ -73,46 +72,26 @@ public class MenuPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         setLayout(gb);
         //label
-        gcon.gridx = 0;
-        gcon.gridy = 0;
-        add(label, gcon);
+        gbCon.gridx = 0;
+        gbCon.gridy = 0;
+        add(label, gbCon);
 
 
         //button
-        gcon.gridx = 0;
-        gcon.gridy = 1;
-        add(englishB, gcon);
-        gcon.gridy = 2;
-        add(funnyB, gcon);
-        gcon.gridy = 3;
-        add(wordB, gcon);
-        gcon.gridy = 4;
-        add(mathB, gcon);
-        gcon.gridy = 5;
-        add(hardB, gcon);
+        gbCon.gridx = 0;
+        gbCon.gridy = 1;
+        add(englishB, gbCon);
+        gbCon.gridy = 2;
+        add(funnyB, gbCon);
+        gbCon.gridy = 3;
+        add(wordB, gbCon);
+        gbCon.gridy = 4;
+        add(mathB, gbCon);
+        gbCon.gridy = 5;
+        add(hardB, gbCon);
 
     }
 
-//    public void paintComponent(Graphics g){
-//        super.paintComponent(g);
-//        Graphics2D g2 = (Graphics2D) g;
-//        Font f1 = new Font("Serif",Font.PLAIN,30);
-//        g2.setFont(f1);
-//        g2.setColor(Color.BLACK);
-//        TextLayout textLayout = new TextLayout("To start the game press the Start Game button", f1,g2.getFontRenderContext());
-//        textLayout.draw(g2,getWidth()/5+60,100);
-//
-//        Font f2 = new Font("Serif",Font.PLAIN,25);
-//        g2.setFont(f2);
-//        g2.setColor(Color.BLACK);
-//        g2.drawString("Enigma is a puzzle game.",465,300);
-//        g2.drawString("There will be a riddle displayed at the top  ",400,350);
-//        g2.drawString("of a board. The answer to each riddle is a number. To win ",360,400);
-//        g2.drawString(" you must answer most riddles correctly without losing all your hearts ",303,450);
-//        g2.drawString("There are eight riddles and 3 Hearts. Please enter a name before you click start ",260,500);
-//        g2.dispose();
-//
-//    }
 }
 
 
