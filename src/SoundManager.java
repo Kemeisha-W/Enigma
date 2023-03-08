@@ -20,9 +20,12 @@ public class SoundManager {				// a Singleton class
 
 		clip = loadClip("Assets/sound/dramatic-synth.wav");	// played when the game ends
 		clips.put("gameOver", clip);
-//
-//		clip = loadClip("sounds/appearSound.wav");	// played when an alien is regenerated at the top of the JPanel
-//		clips.put("appear", clip);
+
+		clip = loadClip("Assets/sound/Game level-completed.wav");	// after getting 8 riddles correct
+		clips.put("levelUp", clip);
+
+		clip = loadClip("Assets/sound/wrong-answer-fail.wav");	// after choosing the wrong answer
+		clips.put("wrong", clip);
 
 		volume = 1.0f;
 	}

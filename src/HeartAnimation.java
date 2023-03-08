@@ -45,7 +45,6 @@ public class HeartAnimation {
 		animation.addFrame(heartAni_3, 150);
 		animation.addFrame(heartAni_4, 150);
 		animation.addFrame(heartAni_5, 200);
-//		animation.addFrame(heartAni_2, 150);
 
 	}
 

@@ -52,7 +52,6 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		soundManager = SoundManager.getInstance();
-		//TODO: Add back sound
 		soundManager.playClip("background",true);
 	}
 

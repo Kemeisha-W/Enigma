@@ -17,9 +17,10 @@ public class GamePanel extends JPanel {
     //Buttons
     ButtonCustom restartB;
     ButtonCustom hintB;
-//    ButtonCustom submitB;
     ButtonCustom exitB;
     private GridBagConstraints gbCon = new GridBagConstraints();
+
+
     public GamePanel(GameWindow.CATEGORY c){
         //Add new player
 
@@ -134,17 +135,19 @@ public class GamePanel extends JPanel {
         disintegrate.draw(g2);
         grayScale.draw(g2);
     }
+
     public void endGame(Window win){
         GameOverPanel goPanel = new GameOverPanel();
         gameBoard.endGame();
         gameBoard.setVisible(false);
         goPanel.setPreferredSize(new Dimension(1000,719));
         goPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        goPanel.setAnimation(win);
         soundManager.playClip("gameOver",false);
         gbCon.gridx=0;
         gbCon.gridy=2;
         add(goPanel,gbCon);
-        goPanel.setAnimation(win);
+
     }
     public void startGame() {
         gameBoard.startGame();

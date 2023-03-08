@@ -29,6 +29,7 @@ public class GameOverPanel extends JPanel  implements Runnable{
 
         }
     }
+
     @Override
     public void run() {
         try {

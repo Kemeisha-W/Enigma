@@ -14,9 +14,6 @@ public class GameOverAnimation {
 	private int x;		// x position of animation
 	private int y;		// y position of animation
 
-	private int width;
-	private int height;
-
 	private int dx;		// increment to move along x-axis
 	private int dy;		// increment to move along y-axis
 

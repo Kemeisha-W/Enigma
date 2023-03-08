@@ -9,19 +9,20 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-
-import static java.lang.Thread.sleep;
 import static src.GameWindow.soundManager;
 
 public class GameBoard extends JPanel implements Runnable{
-    private BufferedImage image;
+    private static BufferedImage image;
     private Image backgroundImage;
     private int a =0;
     public Player player;
     private Scanner scnr;
     private Thread gameThread;
+    private HeartAnimation ani;
 
     //JPanels
+    private JPanel riddleP;
+
     private JLabel riddleL;
     private JLabel option1L;
     private JLabel option2L;
@@ -31,6 +32,8 @@ public class GameBoard extends JPanel implements Runnable{
     private String correct = "";
     private int count = 0;
     private boolean isRunning;
+    private boolean playAni = false;
+    private boolean mClicked = false;
 
     public GameBoard(GameWindow.CATEGORY c){
         GridBagLayout gb = new GridBagLayout();
@@ -51,10 +54,9 @@ public class GameBoard extends JPanel implements Runnable{
             System.out.println("Error: "+e.getMessage());
         }
 
-        JPanel riddleP = new JPanel(new GridBagLayout());
+        riddleP = new JPanel(new GridBagLayout());
         riddleP.setPreferredSize(new Dimension(800,300));
         riddleL = new JLabel();
-        riddleL.setSize(getWidth()/3,getHeight()-100);
         riddleP.add(riddleL);
 
 
@@ -77,12 +79,22 @@ public class GameBoard extends JPanel implements Runnable{
 
 
         //Create mouse Listeners
-        option1P.addMouseListener(new MouseAdapter() {});
-        option2P.addMouseListener(new MouseAdapter() {});
+        option1P.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                isCorrect(option1L);
+            }
+        });
+        option2P.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                isCorrect(option2L);
+            }
+        });
         option3P.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //TODO: Implement for all options
+                isCorrect(option3L);
             }
         });
 
@@ -118,6 +130,14 @@ public class GameBoard extends JPanel implements Runnable{
         add(option2P,gbCon);
         gbCon.gridy = 5;
         add(option3P,gbCon);
+
+        riddleL.setText(riddles.get(count));
+        correct = riddles.get(count);
+        option1L.setText(answers.get(randAnswer(count)));
+        option2L.setText(answers.get(randAnswer(count)));
+        option3L.setText(answers.get(randAnswer(count)));
+        System.out.println("Riddle: " + riddles.get(count)+"\n");
+
     }
 
     @Override
@@ -130,6 +150,7 @@ public class GameBoard extends JPanel implements Runnable{
         imageContext.dispose();
     }
 
+
     public void startGame() {				// initialise and start the game thread
         if (gameThread == null) {
             gameThread = new Thread (this);
@@ -137,74 +158,66 @@ public class GameBoard extends JPanel implements Runnable{
         }
     }
 
+
     public void run () {
         isRunning = true;
-//        while (isRunning){
-            System.out.println("Riddles: " + riddles+"\n");
-            System.out.println("Answers: " + answers+"\n");
+        while (isRunning){
+            while(playAni){
+                System.out.println("HearT Lost!");
+                if(ani!=null){
+                    soundManager.playClip("wrong",false);
+                    for(int i=0;i<5;i++){
+                        BufferedImage aniImage = new BufferedImage(riddleP.getWidth(),riddleP.getHeight(),BufferedImage.TYPE_INT_RGB);
+                        Graphics2D riddleg2 = (Graphics2D) riddleP.getGraphics();
+                        ani.draw(riddleg2);
+                        try {
+                            Thread.sleep(20);
+                            ani.update();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                playAni = false;
+                //TODO: CHANGE TO HEART PANEL HEART
+            }
+
             if(count == 8){
+                soundManager.playClip("levelUp",false);
                 //TODO: Add animation and sound clip and Label displaying information
             }
-            riddleL.setText(riddles.get(count));
-            correct = riddles.get(count);
-            option1L.setText(answers.get(randAnswer(count)));
-            option2L.setText(answers.get(randAnswer(count)));
-            option3L.setText(answers.get(randAnswer(count)));
-//        }
-//        player.chosenCol = colNum;
-//        player.disks[a].setX(value[colNum-1].x);
-            //Drop Disk to reveal answer
-//            try {
-//                canvas = player.disks[a].dropDisk(canvas, value[colNum - 1], isCorrect());
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+            if(mClicked){
+                count++;
+                System.out.println("Riddle: " + riddles.get(count)+"\n");
+                riddleL.setText(riddles.get(count));
+                correct = riddles.get(count);
+                option1L.setText(answers.get(randAnswer(count)));
+                option2L.setText(answers.get(randAnswer(count)));
+                option3L.setText(answers.get(randAnswer(count)));
 
-            //If it is not correct then
-//            if (!value[colNum - 1].isCorrect) {
-//                value[colNum - 1].hasDisk = false;
-//                player.numDisks--;
-//                player.hearts--;
-//                if (player.hearts >= 0) {
-//                    counter--;
-//                    //Draw Heart to show the lost heart
-////                    try {//TODO: CHANGE TO HEART PANEL HEART
-//////                        drawHeart();
-////                    } catch (InterruptedException e) {
-////                        throw new RuntimeException(e);
-////                    }
-//                    canvas.repaint();
-//                    try {
-//                        sleep(500);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }else if (player.hearts<=0) {
-//                    setScore();
-//                    return;
-//                }
-//            }else{
-//                value[colNum-1].isCorrect = true;
-//                player.correctCounter++;
-//            }
-//        if (counter < 8){
-////            rule.setText(player.questions.get(counter));
-//            revalidate();
-//            player.numDisks--;
-//            a++;
-//        }
-//            setScore();
-//            return;
-//        text.setText("Enter new Number");
-//        revalidate();
+            }
+        }
+
     }
 
     public void isCorrect(JLabel clicked) {
-        if(clicked.getText().equals(correct)){
-            //TODO: CORRECT OR WRONG
-        }else{
 
+        mClicked = true;
+        if(clicked.getText().equals(correct)){
+            diskAni();
+            System.out.println("correct yes");
+            return;
         }
+        playAni = true;
+        ani = new HeartAnimation();
+        ani.start();
+        count--;
+        player.hearts--;
+        System.out.println("wrong yes");
+    }
+
+    public void diskAni(){
+
     }
 
     private int randAnswer(int ansNum){
@@ -219,13 +232,6 @@ public class GameBoard extends JPanel implements Runnable{
         }
     }
 
-    //TODO: Set score
-    private void setScore(){
-//        text.setText("<html>Game Over</html>");
-//        rule.setText("<html>Score: " +player.correctCounter +" out of 8.<br/>To Play Again click StartGame</html>");
-        revalidate();
-    }
-
     public void restartGame() {				// initialise and start a new game thread
         if (gameThread == null || !isRunning) {
             gameThread = new Thread (this);
@@ -236,7 +242,6 @@ public class GameBoard extends JPanel implements Runnable{
     public void endGame() {					// end the game thread
         isRunning = false;
         soundManager.stopClip ("background");
-
     }
 
 }
