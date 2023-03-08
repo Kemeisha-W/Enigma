@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -15,14 +14,9 @@ import static java.lang.Thread.sleep;
 import static src.GameWindow.soundManager;
 
 public class GameBoard extends JPanel implements Runnable{
-    private int colNum;
-    public static int SPACING = 10;
-    public int counter =0;
     private BufferedImage image;
     private Image backgroundImage;
-    public static final int COLS=8;
     private int a =0;
-    public BoardSpace value[];
     public Player player;
     private Scanner scnr;
     private Thread gameThread;
@@ -38,8 +32,7 @@ public class GameBoard extends JPanel implements Runnable{
     private int count = 0;
     private boolean isRunning;
 
-    public GameBoard(Player p, GameWindow.CATEGORY c){
-        value = new BoardSpace[COLS];
+    public GameBoard(GameWindow.CATEGORY c){
         GridBagLayout gb = new GridBagLayout();
         GridBagConstraints gbCon = new GridBagConstraints();
 
@@ -53,7 +46,6 @@ public class GameBoard extends JPanel implements Runnable{
             case HARD -> filename = "Assets/files/Hard Riddles.txt";
         }
         try{
-            //TODO: use data to build the question and answers
             scnr = new Scanner(new FileReader(filename));
         }catch(Exception e){
             System.out.println("Error: "+e.getMessage());
@@ -81,13 +73,19 @@ public class GameBoard extends JPanel implements Runnable{
         JPanel option3P = new JPanel(new GridBagLayout());
         option3P.setPreferredSize(new Dimension(600,50));
         option3L = new JLabel();
+        option3P.add(option3L);
+
+
+        //Create mouse Listeners
+        option1P.addMouseListener(new MouseAdapter() {});
+        option2P.addMouseListener(new MouseAdapter() {});
         option3P.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                //TODO: Implement for all options
             }
         });
-        option3P.add(option3L);
+
 
         //Set Riddle Arraylist and Answer Arraylist
         while(scnr.hasNextLine()){
@@ -102,8 +100,8 @@ public class GameBoard extends JPanel implements Runnable{
         }
 
 //        //Create and initialize Players
-//        player = p;
-//        int numDisks = player.numDisks;
+        player = new Player();
+
         setBackground(GameWindow.background);
         backgroundImage = ImageManager.loadBufferedImage("Assets/images/Enigma (Custom).png");
         image = new BufferedImage(1000, 719, BufferedImage.TYPE_INT_RGB);
@@ -122,13 +120,14 @@ public class GameBoard extends JPanel implements Runnable{
         add(option3P,gbCon);
     }
 
-    public void gameRender(){
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
         Graphics2D imageContext = (Graphics2D) image.getGraphics();
-
         imageContext.drawImage(backgroundImage,0,0,null); //draw the background image
-
-        Graphics2D g2 = (Graphics2D) getGraphics();
-        g2.drawImage(image, 0, 0, null);
+        g2.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+        imageContext.dispose();
     }
 
     public void startGame() {				// initialise and start the game thread
@@ -141,7 +140,6 @@ public class GameBoard extends JPanel implements Runnable{
     public void run () {
         isRunning = true;
 //        while (isRunning){
-        gameRender();
             System.out.println("Riddles: " + riddles+"\n");
             System.out.println("Answers: " + answers+"\n");
             if(count == 8){
@@ -201,32 +199,6 @@ public class GameBoard extends JPanel implements Runnable{
 //        revalidate();
     }
 
-//    public void updateBoard(int colNumber){
-//        this.colNum =colNumber;
-//        if(colNumber<9&&colNumber>-1){
-//            if (!isCorrect()) {
-//                value[colNum - 1].isCorrect = false;
-//            } else {
-//                value[colNum - 1].isCorrect = true;
-//            }
-//            run();
-//        }else{
-//            rule.setText("Enter a number between 1 and 8");
-//            revalidate();;
-//        }
-//    }
-
-    private void gameOver(){
-        soundManager.playClip("gameOver",false);
-        GameOverAnimation animation = new GameOverAnimation();
-        Graphics2D imageContext = (Graphics2D) image.getGraphics();
-        animation.start();
-        animation.draw(imageContext);
-        Graphics2D g2 = (Graphics2D) getGraphics();
-//        g2.drawImage(,0,0,null);
-//        imageContext.dispose();
-    }
-
     public void isCorrect(JLabel clicked) {
         if(clicked.getText().equals(correct)){
             //TODO: CORRECT OR WRONG
@@ -264,7 +236,7 @@ public class GameBoard extends JPanel implements Runnable{
     public void endGame() {					// end the game thread
         isRunning = false;
         soundManager.stopClip ("background");
-        gameOver();
+
     }
 
 }

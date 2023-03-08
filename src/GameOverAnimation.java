@@ -30,21 +30,16 @@ public class GameOverAnimation {
         	dy = 0;		// increment to move along y-axis
 
 		// load images for blinking face animation
-
-		Image gameOv_1 = ImageManager.loadImage("Assets/images/go3.png");
-		Image gameOV_2 = ImageManager.loadImage("Assets/images/go1.png");
-		Image gameOV_3 = ImageManager.loadImage("Assets/images/go2.png");
-		Image gameOV_4 = ImageManager.loadImage("Assets/images/go4.png");
+		Image gameOV_2 = ImageManager.loadImage("Assets/images/go2.jpg");
+		Image gameOV_3 = ImageManager.loadImage("Assets/images/go4.jpg");
 
 
 		// create animation object and insert frames
-
-		animation.addFrame(gameOv_1, 250);
 		animation.addFrame(gameOV_2, 150);
 		animation.addFrame(gameOV_3, 150);
-		animation.addFrame(gameOV_4, 150);
-		animation.addFrame(gameOV_3, 200);
-		animation.addFrame(gameOV_4, 150);
+		animation.addFrame(gameOV_2, 150);
+		animation.addFrame(gameOV_3, 150);
+		animation.addFrame(gameOV_2, 150);
 
 	}
 

@@ -9,26 +9,23 @@ import static src.GameWindow.soundManager;
 public class GamePanel extends JPanel {
     private GameBoard gameBoard;
     private JPanel heartPanel;
-    private Player player;
     private BufferedImage image;
     private ImageIcon imageIcon;
     private DisintegrateFX disintegrate;
     private GrayScaleFX grayScale;
-    private JTextField answerT;
     private final String heartImage = "Assets/images/heart_icon.png";
     //Buttons
     ButtonCustom restartB;
     ButtonCustom hintB;
 //    ButtonCustom submitB;
     ButtonCustom exitB;
-
+    private GridBagConstraints gbCon = new GridBagConstraints();
     public GamePanel(GameWindow.CATEGORY c){
         //Add new player
-        player = new Player(11);
 
         //Add Game Panel Layout
         setLayout(new GridBagLayout());
-        GridBagConstraints gbCon = new GridBagConstraints();
+
         gbCon.insets = new Insets(5,3,5,3);
 
         gbCon.gridx=0;
@@ -57,7 +54,7 @@ public class GamePanel extends JPanel {
 
 
         //Create Game Board
-        this.gameBoard = new GameBoard(player, c);
+        this.gameBoard = new GameBoard(c);
 
 //        Canvas board = new Canvas() {
 //            @Override
@@ -83,9 +80,7 @@ public class GamePanel extends JPanel {
 //            }
 //        };
 
-//        gameBoard.setCanvas(board);
         gameBoard.setPreferredSize(new Dimension(1000, 719));
-//        gameBoard.add(board);
 
         gbCon.gridx=0;
         gbCon.gridy=2;
@@ -113,7 +108,6 @@ public class GamePanel extends JPanel {
         gbCon.gridx = 2;
         detailsPanel.add(hintB);
 
-        answerT = new JTextField();
         gbCon.gridx = 3;
 
 
@@ -122,6 +116,7 @@ public class GamePanel extends JPanel {
         exitB.setIcon(imageIcon);
         exitB.setText("Exit");
         exitB.setRound(30);
+
         gbCon.gridx = 3;
         detailsPanel.add(exitB);
         detailsPanel.setBackground(GameWindow.background);
@@ -139,9 +134,17 @@ public class GamePanel extends JPanel {
         disintegrate.draw(g2);
         grayScale.draw(g2);
     }
-    public void endGame(){
+    public void endGame(Window win){
+        GameOverPanel goPanel = new GameOverPanel();
         gameBoard.endGame();
-
+        gameBoard.setVisible(false);
+        goPanel.setPreferredSize(new Dimension(1000,719));
+        goPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        soundManager.playClip("gameOver",false);
+        gbCon.gridx=0;
+        gbCon.gridy=2;
+        add(goPanel,gbCon);
+        goPanel.setAnimation(win);
     }
     public void startGame() {
         gameBoard.startGame();

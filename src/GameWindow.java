@@ -161,9 +161,7 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 					case "Hint":
 						break;
 					case "Exit":
-						gamePanel.endGame();
-//						setVisible(false);
-//						dispose();
+						gamePanel.endGame(this);
 						break;
 				}
 
