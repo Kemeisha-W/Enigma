@@ -2,8 +2,9 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
+import static src.GameWindow.soundManager;
 
 public class GamePanel extends JPanel {
     private GameBoard gameBoard;
@@ -13,14 +14,15 @@ public class GamePanel extends JPanel {
     private ImageIcon imageIcon;
     private DisintegrateFX disintegrate;
     private GrayScaleFX grayScale;
+    private JTextField answerT;
     private final String heartImage = "Assets/images/heart_icon.png";
     //Buttons
     ButtonCustom restartB;
     ButtonCustom hintB;
-    ButtonCustom submitB;
+//    ButtonCustom submitB;
+    ButtonCustom exitB;
 
-    public GamePanel(){
-
+    public GamePanel(GameWindow.CATEGORY c){
         //Add new player
         player = new Player(11);
 
@@ -47,50 +49,48 @@ public class GamePanel extends JPanel {
         gbCon.gridx = 5;
         JLabel heartsLeft = new JLabel();
         heartsLeft.setText("You have three hearts left");
-        heartsLeft.setBackground(new Color(244, 190, 130));
+        heartsLeft.setBackground(GameWindow.background);
         gbCon.gridx=0;
         gbCon.gridy=0;
-        heartPanel.setBackground(new Color(244, 190, 130));
+        heartPanel.setBackground(GameWindow.background);
         add(heartPanel, gbCon);
 
 
         //Create Game Board
-        this.gameBoard = new GameBoard(player);
-        gameBoard.setLayout(new FlowLayout());
+        this.gameBoard = new GameBoard(player, c);
 
-        Canvas board = new Canvas() {
-            @Override
-            public void paint(Graphics g) {
-                super.paint(g);
-                System.out.println("Updating canvas");
-
-                // Display initial Board
-                Graphics2D g2 = (Graphics2D) g;
-                int count = 0;
-                for (int col = 0; col < gameBoard.COLS; col++) {
-                    int x = gameBoard.SPACING + gameBoard.SPACING * col + Disk.WIDTH * col + 5;
-                    gameBoard.value[count] = new BoardSpace(col);
-                    gameBoard.value[count].x = x;
-                    gameBoard.value[count].colNumber = col;
-                    g2.setColor(gameBoard.value[count].color);
-                    Rectangle2D.Double initSpace = new Rectangle2D.Double(x, 0, Disk.WIDTH, 750);
-                    g2.fill(initSpace);
-                    g2.draw(initSpace);
-                    count++;
-                }
-                g2.dispose();
-            }
-        };
+//        Canvas board = new Canvas() {
+//            @Override
+//            public void paint(Graphics g) {
+//                super.paint(g);
+//                System.out.println("Updating canvas");
 //
+//                // Display initial Board
+//                Graphics2D g2 = (Graphics2D) g;
+//                int count = 0;
+//                for (int col = 0; col < gameBoard.COLS; col++) {
+//                    int x = gameBoard.SPACING + gameBoard.SPACING * col + Disk.WIDTH * col + 5;
+//                    gameBoard.value[count] = new BoardSpace(col);
+//                    gameBoard.value[count].x = x;
+//                    gameBoard.value[count].colNumber = col;
+//                    g2.setColor(gameBoard.value[count].color);
+//                    Rectangle2D.Double initSpace = new Rectangle2D.Double(x, 0, Disk.WIDTH, 750);
+//                    g2.fill(initSpace);
+//                    g2.draw(initSpace);
+//                    count++;
+//                }
+//                g2.dispose();
+//            }
+//        };
+
 //        gameBoard.setCanvas(board);
-//        board.setPreferredSize(new Dimension(1000, 800));
+        gameBoard.setPreferredSize(new Dimension(1000, 719));
 //        gameBoard.add(board);
-        gameBoard.setBackground(new Color(244, 190, 130));
 
         gbCon.gridx=0;
         gbCon.gridy=2;
         add(gameBoard, gbCon);
-        setBackground(new Color(244, 190, 130));        //Display GameBoard and Player turn
+        setBackground(GameWindow.background);        //Display GameBoard and Player turn
 
 
         //Set Details Panel
@@ -113,28 +113,40 @@ public class GamePanel extends JPanel {
         gbCon.gridx = 2;
         detailsPanel.add(hintB);
 
-        submitB = new ButtonCustom();
-        imageIcon = new ImageIcon("Assets/images/ok_icon.png");
-        submitB.setIcon(imageIcon);
-        submitB.setRound(30);
-        submitB.setText("Submit");
+        answerT = new JTextField();
         gbCon.gridx = 3;
-        detailsPanel.add(submitB);
 
-        detailsPanel.setBackground(new Color(244, 190, 130));
+
+        exitB = new ButtonCustom();
+        imageIcon = new ImageIcon("Assets/images/exit.png");
+        exitB.setIcon(imageIcon);
+        exitB.setText("Exit");
+        exitB.setRound(30);
+        gbCon.gridx = 3;
+        detailsPanel.add(exitB);
+        detailsPanel.setBackground(GameWindow.background);
         gbCon.gridx=0;
-        gbCon.gridy=3;
+        gbCon.gridy=4;
         gbCon.fill = GridBagConstraints.HORIZONTAL;
         add(detailsPanel, gbCon);
+
     }
 
-    public void gameRender() {
-        Graphics2D imageContext = (Graphics2D) image.getGraphics();
-    }
+
     public void lostHeart(Graphics2D g2) {
         disintegrate = new DisintegrateFX(heartPanel,heartImage);
         grayScale = new GrayScaleFX(heartPanel);
         disintegrate.draw(g2);
         grayScale.draw(g2);
+    }
+    public void endGame(){
+        gameBoard.endGame();
+
+    }
+    public void startGame() {
+        gameBoard.startGame();
+    }
+    public void restartGame(){
+        gameBoard.restartGame();
     }
 }

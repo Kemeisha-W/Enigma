@@ -1,6 +1,7 @@
 package src;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
@@ -9,8 +10,9 @@ public class MenuPanel extends JPanel {
     public ButtonCustom wordB;
     public ButtonCustom mathB;
     public ButtonCustom funnyB;
+    private Font font= new Font("Arial", Font.PLAIN, 20 );
     public MenuPanel() {
-        setBackground(new Color(244, 190, 130));
+        setBackground(GameWindow.background);
 
         //Create Buttons for menu Panel
         englishB = new ButtonCustom();
@@ -40,32 +42,27 @@ public class MenuPanel extends JPanel {
         label.setFont(new Font("Arial", Font.BOLD, 45 ));
 
         englishB.setPreferredSize(new Dimension(200, 50));
-        englishB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-        englishB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
+        englishB.setFont(font);
         englishB.setRound(30);
         englishB.setHorizontalAlignment(SwingConstants.CENTER);
 
         funnyB.setPreferredSize(new Dimension(200, 50));
-        funnyB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-        funnyB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
+        funnyB.setFont(font);
         funnyB.setHorizontalAlignment(SwingConstants.CENTER);
         funnyB.setRound(30);
 
         wordB.setPreferredSize(new Dimension(200, 50));
-        wordB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-        wordB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
+        wordB.setFont(font);
         wordB.setHorizontalAlignment(SwingConstants.CENTER);
         wordB.setRound(30);
 
         mathB.setPreferredSize(new Dimension(200, 50));
-        mathB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-        mathB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
+        mathB.setFont(font);
         mathB.setHorizontalAlignment(SwingConstants.CENTER);
         mathB.setRound(30);
 
         hardB.setPreferredSize(new Dimension(200, 50));
-        hardB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-        hardB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
+        hardB.setFont(font);
         hardB.setHorizontalAlignment(SwingConstants.CENTER);
         hardB.setRound(30);
 

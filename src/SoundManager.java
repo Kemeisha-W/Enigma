@@ -17,9 +17,9 @@ public class SoundManager {				// a Singleton class
 
 		Clip clip = loadClip("Assets/sound/Background.wav");	// played from start of the game
 		clips.put("background", clip);
-//
-//		clip = loadClip("sounds/hitSound.wav");	// played when the bat hits an alien
-//		clips.put("hit", clip);
+
+		clip = loadClip("Assets/sound/dramatic-synth.wav");	// played when the game ends
+		clips.put("gameOver", clip);
 //
 //		clip = loadClip("sounds/appearSound.wav");	// played when an alien is regenerated at the top of the JPanel
 //		clips.put("appear", clip);
@@ -35,22 +35,20 @@ public class SoundManager {				// a Singleton class
 		return instance;
 	}		
 
-
-    	public Clip loadClip (String fileName) {	// gets clip from the specified file
+ 	public Clip loadClip (String fileName) {	// gets clip from the specified file
  		AudioInputStream audioIn;
 		Clip clip = null;
-
 		try {
-    			File file = new File(fileName);
-    			audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL()); 
-    			clip = AudioSystem.getClip();
-    			clip.open(audioIn);
+			File file = new File(fileName);
+			audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
+			clip = AudioSystem.getClip();
+			clip.open(audioIn);
 		}
 		catch (Exception e) {
  			System.out.println ("Error opening sound files: " + e);
 		}
     		return clip;
-    	}
+	}
 
 
 	public Clip getClip (String title) {
@@ -59,7 +57,7 @@ public class SoundManager {				// a Singleton class
 	}
 
 
-    	public void playClip(String title, boolean looping) {
+	public void playClip(String title,boolean looping) {
 		Clip clip = getClip(title);
 		if (clip != null) {
 			clip.setFramePosition(0);
@@ -68,14 +66,13 @@ public class SoundManager {				// a Singleton class
 			else
 				clip.start();
 		}
-    	}
+	}
 
 
-    	public void stopClip(String title) {
+	public void stopClip(String title) {
 		Clip clip = getClip(title);
 		if (clip != null) {
 			clip.stop();
 		}
-    	}
-
+	}
 }

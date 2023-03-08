@@ -2,7 +2,6 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 
@@ -31,7 +30,7 @@ public class StartPanel extends JPanel {
 		startB = new ButtonCustom();
 		startB.setPreferredSize(new Dimension(200, 50));
 		startB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-		startB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
+//		startB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
 		startB.setHorizontalAlignment(SwingConstants.CENTER);
 		startB.setStyle(ButtonCustom.ButtonStyle.SECONDARY);
 		startB.setText("Start Game");
@@ -40,7 +39,7 @@ public class StartPanel extends JPanel {
 		infoB = new ButtonCustom();
 		infoB.setPreferredSize(new Dimension(200, 50));
 		infoB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-		infoB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
+//		infoB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
 		infoB.setHorizontalAlignment(SwingConstants.CENTER);
 		infoB.setText("Game Information");
 		infoB.setRound(30);
