@@ -3,6 +3,8 @@ package src;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -13,7 +15,6 @@ public class StartPanel extends JPanel {
 	private BufferedImage image;
 	private Image backgroundImage;
 	public ButtonCustom startB;
-	public ButtonCustom infoB;
 
 
 	public StartPanel(int width) {
@@ -22,6 +23,20 @@ public class StartPanel extends JPanel {
 		gbCon.fill = GridBagConstraints.HORIZONTAL;
 		gbCon.insets = new Insets(5,3,5,3);
 
+		Font buttonF;
+		//Create Custom Font
+		try{
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			Font f1 = Font.createFont(Font.TRUETYPE_FONT,new File("Assets/fonts/button_shield/Button Shield Personal Use Only.otf"));
+			f1.deriveFont(13f);
+			ge.registerFont(f1);
+			buttonF = new Font("Button Shield Personal Use Only",Font.PLAIN,30);
+		}catch(IOException|FontFormatException e){
+			//Handle exception
+			System.out.println("Message: " + e.getMessage());
+			buttonF = new Font("Arial", Font.PLAIN, 20 );
+		}
+
 		//Insert background image
 		backgroundImage = ImageManager.loadBufferedImage("Assets/images/Enigma_Start2 (Custom).png");
 		image = new BufferedImage(width, 907, BufferedImage.TYPE_INT_RGB);
@@ -29,30 +44,15 @@ public class StartPanel extends JPanel {
 		//Insert Custom Buttons
 		startB = new ButtonCustom();
 		startB.setPreferredSize(new Dimension(200, 50));
-		startB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-//		startB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
 		startB.setHorizontalAlignment(SwingConstants.CENTER);
 		startB.setStyle(ButtonCustom.ButtonStyle.SECONDARY);
-		startB.setText("Start Game");
+		startB.setText("Start");
 		startB.setRound(30);
-
-		infoB = new ButtonCustom();
-		infoB.setPreferredSize(new Dimension(200, 50));
-		infoB.setFont(new Font("Arial", Font.PLAIN, 20 ));
-//		infoB.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 2));
-		infoB.setHorizontalAlignment(SwingConstants.CENTER);
-		infoB.setText("Game Information");
-		infoB.setRound(30);
-		infoB.setStyle(ButtonCustom.ButtonStyle.SECONDARY);
-		setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+		startB.setFont(buttonF);
 
 		gbCon.gridx = 0;
 		gbCon.gridy = 0;
 		add(startB);
-
-		gbCon.gridx = 0;
-		gbCon.gridy = 1;
-		add(infoB);
 		setLayout(gb);
 	}
 

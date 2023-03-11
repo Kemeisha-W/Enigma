@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
-public class GameOverPanel extends JPanel  implements Runnable{
+public class GameOverPanel extends JPanel implements Runnable{
     private BufferedImage image;
     private GameOverAnimation animation;
     private Thread gameOver;

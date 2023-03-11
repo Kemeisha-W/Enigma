@@ -37,7 +37,6 @@ public class GameOverAnimation {
 		animation.addFrame(gameOV_2, 150);
 		animation.addFrame(gameOV_3, 150);
 		animation.addFrame(gameOV_2, 150);
-
 	}
 
 

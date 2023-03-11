@@ -1,8 +1,9 @@
 package src;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class MenuPanel extends JPanel {
     public ButtonCustom englishB;
@@ -13,6 +14,20 @@ public class MenuPanel extends JPanel {
     private Font font= new Font("Arial", Font.PLAIN, 20 );
     public MenuPanel() {
         setBackground(GameWindow.background);
+
+        Font buttonF;
+        //Create Custom Font
+        try{
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            Font f1 = Font.createFont(Font.TRUETYPE_FONT,new File("Assets/fonts/button_shield/Button Shield Personal Use Only.otf"));
+            f1.deriveFont(13f);
+            ge.registerFont(f1);
+            buttonF = new Font("Button Shield Personal Use Only",Font.PLAIN,30);
+        }catch(IOException | FontFormatException e){
+            //Handle exception
+            System.out.println("Message: " + e.getMessage());
+            buttonF = new Font("Arial", Font.PLAIN, 20 );
+        }
 
         //Create Buttons for menu Panel
         englishB = new ButtonCustom();
@@ -37,32 +52,33 @@ public class MenuPanel extends JPanel {
         gbCon.insets = new Insets(5,3,5,3);
 
         //Create Label
-        JLabel label = new JLabel("Choose your category");
-        label.setPreferredSize(new Dimension(500, 50));
-        label.setFont(new Font("Arial", Font.BOLD, 45 ));
+        JLabel label = new JLabel("<html>Choose your category</html>", SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(500, 100));
+        label.setFont(new Font("Button Shield Personal Use Only", Font.BOLD, 50 ));
+
 
         englishB.setPreferredSize(new Dimension(200, 50));
-        englishB.setFont(font);
+        englishB.setFont(buttonF);
         englishB.setRound(30);
         englishB.setHorizontalAlignment(SwingConstants.CENTER);
 
         funnyB.setPreferredSize(new Dimension(200, 50));
-        funnyB.setFont(font);
+        funnyB.setFont(buttonF);
         funnyB.setHorizontalAlignment(SwingConstants.CENTER);
         funnyB.setRound(30);
 
         wordB.setPreferredSize(new Dimension(200, 50));
-        wordB.setFont(font);
+        wordB.setFont(buttonF);
         wordB.setHorizontalAlignment(SwingConstants.CENTER);
         wordB.setRound(30);
 
         mathB.setPreferredSize(new Dimension(200, 50));
-        mathB.setFont(font);
+        mathB.setFont(buttonF);
         mathB.setHorizontalAlignment(SwingConstants.CENTER);
         mathB.setRound(30);
 
         hardB.setPreferredSize(new Dimension(200, 50));
-        hardB.setFont(font);
+        hardB.setFont(buttonF);
         hardB.setHorizontalAlignment(SwingConstants.CENTER);
         hardB.setRound(30);
 

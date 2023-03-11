@@ -9,7 +9,7 @@ public class SoundManager {				// a Singleton class
 	HashMap<String, Clip> clips;
 
 	private static SoundManager instance = null;	// keeps track of Singleton instance
-
+	private long clipTime;
 	private float volume;
 
 	private SoundManager () {
@@ -21,13 +21,19 @@ public class SoundManager {				// a Singleton class
 		clip = loadClip("Assets/sound/dramatic-synth.wav");	// played when the game ends
 		clips.put("gameOver", clip);
 
-		clip = loadClip("Assets/sound/Game level-completed.wav");	// after getting 8 riddles correct
+		clip = loadClip("Assets/sound/Game level-completed.wav");	// after getting 5 riddles correct
 		clips.put("levelUp", clip);
 
 		clip = loadClip("Assets/sound/wrong-answer-fail.wav");	// after choosing the wrong answer
 		clips.put("wrong", clip);
 
-		volume = 1.0f;
+		clip = loadClip("Assets/sound/correct.wav");	// after choosing the correct answer
+		clips.put("correct", clip);
+
+		clip = loadClip("Assets/sound/gameComplete.wav");	// after user beats game
+		clips.put("gameFinished", clip);
+
+		volume = 0.06f;
 	}
 
 
@@ -36,7 +42,20 @@ public class SoundManager {				// a Singleton class
 			instance = new SoundManager();
 		
 		return instance;
-	}		
+	}
+
+	public void resumeClip(String fileName, boolean looping){
+		Clip clip = getClip(fileName);
+		clipTime = clip.getMicrosecondPosition();
+		if(looping){
+			clip.setMicrosecondPosition(clipTime);
+			clip.start();
+		}else{
+			clip.setMicrosecondPosition(clipTime);
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+
+	}
 
  	public Clip loadClip (String fileName) {	// gets clip from the specified file
  		AudioInputStream audioIn;
@@ -53,12 +72,10 @@ public class SoundManager {				// a Singleton class
     		return clip;
 	}
 
-
 	public Clip getClip (String title) {
 
 		return clips.get(title);
 	}
-
 
 	public void playClip(String title,boolean looping) {
 		Clip clip = getClip(title);
@@ -70,7 +87,6 @@ public class SoundManager {				// a Singleton class
 				clip.start();
 		}
 	}
-
 
 	public void stopClip(String title) {
 		Clip clip = getClip(title);

@@ -3,9 +3,8 @@ package src;
 import javax.swing.*;			// need this for GUI objects
 import java.awt.*;			// need this for Layout Managers
 import java.awt.event.*;		// need this to respond to GUI events
-import java.awt.geom.Rectangle2D;
 
-public class GameWindow extends JFrame implements ActionListener,KeyListener,MouseListener
+public class GameWindow extends JFrame implements ActionListener,MouseListener
 {
 	//Background colour
 	public static final Color background = new Color(244, 190, 130);
@@ -24,8 +23,7 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 		START,
 		MENU,
 		GAME,
-		INFO,
-	};
+	}
 
 	protected enum CATEGORY{
 		ENGLISH,
@@ -63,8 +61,6 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 				startPanel = new StartPanel(tk.getScreenSize().width);
 				startPanel.setBackground(background);
 				startPanel.startB.addActionListener(this);
-				startPanel.infoB.addActionListener(this);
-
 
 				c = getContentPane();
 				c.add(startPanel);
@@ -84,7 +80,6 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 				break;
 			case GAME:
 				gamePanel = new GamePanel(this.category);
-				gamePanel.hintB.addActionListener(this);
 				gamePanel.restartB.addActionListener(this);
 				gamePanel.exitB.addActionListener(this);
 				this.add(gamePanel);
@@ -92,14 +87,6 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 				c.add(gamePanel);
 				gamePanel.requestFocusInWindow();
 				gamePanel.startGame();
-				break;
-			case INFO:
-				infoPanel = new InfoPanel();
-				infoPanel.returnB.addActionListener(this);
-				this.add(infoPanel);
-				c = getContentPane();
-				c.add(infoPanel);
-				infoPanel.requestFocusInWindow();
 				break;
 		}
 	}
@@ -114,13 +101,8 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 					state = STATE.MENU;
 					startPanel.setVisible(false);
 					setFrame(state);
-				}if (command.equals(startPanel.infoB.getText())) {
-					state = STATE.INFO;
-					startPanel.setVisible(false);
-					setFrame(state);
 				}
 				break;
-
 			case MENU:
 				switch(command){
 					case "English":
@@ -143,12 +125,6 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 				menuPanel.setVisible(false);
 				setFrame(state);
 				break;
-			case INFO:
-				if(command.equals(infoPanel.returnB.getText())){
-					state = STATE.START;
-					infoPanel.setVisible(false);
-					startPanel.setVisible(true);
-				}
 			case GAME:
 				switch (command){
 					case "Restart Game":
@@ -157,27 +133,15 @@ public class GameWindow extends JFrame implements ActionListener,KeyListener,Mou
 						gamePanel.setVisible(false);
 						gamePanel.restartGame();
 						break;
-					case "Hint":
-						break;
 					case "Exit":
 						gamePanel.endGame(this);
 						break;
 				}
-
+				break;
 		}
 	}
 
-	public void keyPressed(KeyEvent e) {
 
-	}
-
-	public void keyReleased(KeyEvent e) {
-
-	}
-
-	public void keyTyped(KeyEvent e) {
-
-	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 

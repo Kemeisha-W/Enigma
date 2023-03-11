@@ -8,38 +8,35 @@ import java.util.Random;
 
 public class GrayScaleFX implements ImageFX {
 
-	private static final int WIDTH = 120;		// width of the image
-	private static final int HEIGHT = 120;		// height of the image
-	private static final int YPOS = 250;		// vertical position of the image
+	private static final int WIDTH = 50;		// width of the image
+	private static final int HEIGHT = 50;		// height of the image
 
 	private JPanel panel;
 
 	private int x;
 	private int y;
 
-	private BufferedImage spriteImage;		// image for sprite effect
+	private BufferedImage image;		// image for heart effect
 	private BufferedImage copyImage;		// copy of image
 
-	Graphics2D g2;
 
 	int time, timeChange;				// to control when the image is grayed
 	boolean originalImage, grayImage;
 
 
 	public GrayScaleFX(JPanel p) {
-		panel = p;
+		this.panel = p;
 
-		Random random = new Random();
-		x = random.nextInt (panel.getWidth() - WIDTH);
-		y = YPOS;
+		x = 150;
+		y = 0;
 
 		time = 0;				// range is 0 to 40
 		timeChange = 1;				// set to 1
 		originalImage = true;
 		grayImage = false;
 
-		spriteImage = ImageManager.loadBufferedImage("images/Butterfly.png");
-		copyImage = ImageManager.copyImage(spriteImage);		
+		image = ImageManager.loadBufferedImage("Assets/images/grayTrophy.png");
+		copyImage = ImageManager.copyImage(image);
 							//  make a copy of the original image
 		copyToGray();
 
@@ -70,7 +67,7 @@ public class GrayScaleFX implements ImageFX {
 	}
 
 
-	private void copyToGray() {
+	public BufferedImage copyToGray() {
 		int imWidth = copyImage.getWidth();
 		int imHeight = copyImage.getHeight();
 
@@ -81,24 +78,13 @@ public class GrayScaleFX implements ImageFX {
 			pixels[i] = toGray(pixels[i]);
 		}
   
-    		copyImage.setRGB(0, 0, imWidth, imHeight, pixels, 0, imWidth);
+    	 	copyImage.setRGB(0, 0, imWidth, imHeight, pixels, 0, imWidth);
+		return copyImage;
 	}	
 
 
 	public void draw (Graphics2D g2) {
-
-		if (originalImage) {			// draw original (already in colour)
-			g2.drawImage(spriteImage, x, y, WIDTH, HEIGHT, null);
-		}
-		else
-		if (grayImage) {			// draw copy (already in grayscale)
-			g2.drawImage(copyImage, x, y, WIDTH, HEIGHT, null);
-		}
-	}
-
-
-	public Rectangle2D.Double getBoundingRectangle() {
-		return new Rectangle2D.Double (x, y, WIDTH, HEIGHT);
+			g2.drawImage(copyImage, x, 0, WIDTH, HEIGHT, null);
 	}
 
 

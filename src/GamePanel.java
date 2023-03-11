@@ -2,28 +2,27 @@ package src;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import static src.GameWindow.soundManager;
 
 public class GamePanel extends JPanel {
+    private GridBagConstraints gbCon = new GridBagConstraints();
     private GameBoard gameBoard;
     private JPanel heartPanel;
-    private BufferedImage image;
     private ImageIcon imageIcon;
-    private DisintegrateFX disintegrate;
-    private GrayScaleFX grayScale;
     private final String heartImage = "Assets/images/heart_icon.png";
+    public JLabel heartL;
+    public JLabel heartL1;
+    public JLabel heartL2;
+    public Player player;
     //Buttons
     ButtonCustom restartB;
-    ButtonCustom hintB;
     ButtonCustom exitB;
-    private GridBagConstraints gbCon = new GridBagConstraints();
 
 
     public GamePanel(GameWindow.CATEGORY c){
         //Add new player
-
+        player= new Player();
         //Add Game Panel Layout
         setLayout(new GridBagLayout());
 
@@ -32,22 +31,19 @@ public class GamePanel extends JPanel {
         gbCon.gridx=0;
         gbCon.gridy=0;
 
-        heartPanel= new JPanel();
+        heartPanel= new javax.swing.JPanel();
 
         Image heartIcon = ImageManager.loadBufferedImage(heartImage);
-        JLabel heartL = new JLabel(new ImageIcon(heartIcon));
+         heartL = new JLabel(new ImageIcon(heartIcon));
         heartPanel.setLayout(new GridBagLayout());
         heartPanel.add(heartL,gbCon);
         gbCon.gridx = 1;
-        JLabel heartL1 = new JLabel(new ImageIcon(heartIcon));
+         heartL1 = new JLabel(new ImageIcon(heartIcon));
         heartPanel.add(heartL1,gbCon);
         gbCon.gridx = 2;
-        JLabel heartL2 = new JLabel(new ImageIcon(heartIcon));
+         heartL2 = new JLabel(new ImageIcon(heartIcon));
         heartPanel.add(heartL2,gbCon);
-        gbCon.gridx = 5;
-        JLabel heartsLeft = new JLabel();
-        heartsLeft.setText("You have three hearts left");
-        heartsLeft.setBackground(GameWindow.background);
+
         gbCon.gridx=0;
         gbCon.gridy=0;
         heartPanel.setBackground(GameWindow.background);
@@ -55,32 +51,7 @@ public class GamePanel extends JPanel {
 
 
         //Create Game Board
-        this.gameBoard = new GameBoard(c);
-
-//        Canvas board = new Canvas() {
-//            @Override
-//            public void paint(Graphics g) {
-//                super.paint(g);
-//                System.out.println("Updating canvas");
-//
-//                // Display initial Board
-//                Graphics2D g2 = (Graphics2D) g;
-//                int count = 0;
-//                for (int col = 0; col < gameBoard.COLS; col++) {
-//                    int x = gameBoard.SPACING + gameBoard.SPACING * col + Disk.WIDTH * col + 5;
-//                    gameBoard.value[count] = new BoardSpace(col);
-//                    gameBoard.value[count].x = x;
-//                    gameBoard.value[count].colNumber = col;
-//                    g2.setColor(gameBoard.value[count].color);
-//                    Rectangle2D.Double initSpace = new Rectangle2D.Double(x, 0, Disk.WIDTH, 750);
-//                    g2.fill(initSpace);
-//                    g2.draw(initSpace);
-//                    count++;
-//                }
-//                g2.dispose();
-//            }
-//        };
-
+        this.gameBoard = new GameBoard(c, heartPanel);
         gameBoard.setPreferredSize(new Dimension(1000, 719));
 
         gbCon.gridx=0;
@@ -90,7 +61,7 @@ public class GamePanel extends JPanel {
 
 
         //Set Details Panel
-        JPanel detailsPanel = new JPanel();
+        javax.swing.JPanel detailsPanel = new javax.swing.JPanel();
 
         //Initialize Buttons
         restartB = new ButtonCustom();
@@ -101,17 +72,7 @@ public class GamePanel extends JPanel {
         gbCon.gridx = 1;
         detailsPanel.add(restartB);
 
-        hintB = new ButtonCustom();
-        imageIcon = new ImageIcon("Assets/images/hint2.png");
-        hintB.setIcon(imageIcon);
-        hintB.setRound(30);
-        hintB.setText("Hint");
         gbCon.gridx = 2;
-        detailsPanel.add(hintB);
-
-        gbCon.gridx = 3;
-
-
         exitB = new ButtonCustom();
         imageIcon = new ImageIcon("Assets/images/exit.png");
         exitB.setIcon(imageIcon);
@@ -129,13 +90,6 @@ public class GamePanel extends JPanel {
     }
 
 
-    public void lostHeart(Graphics2D g2) {
-        disintegrate = new DisintegrateFX(heartPanel,heartImage);
-        grayScale = new GrayScaleFX(heartPanel);
-        disintegrate.draw(g2);
-        grayScale.draw(g2);
-    }
-
     public void endGame(Window win){
         GameOverPanel goPanel = new GameOverPanel();
         gameBoard.endGame();
@@ -146,6 +100,7 @@ public class GamePanel extends JPanel {
         soundManager.playClip("gameOver",false);
         gbCon.gridx=0;
         gbCon.gridy=2;
+        goPanel.setVisible(true);
         add(goPanel,gbCon);
 
     }
@@ -154,5 +109,6 @@ public class GamePanel extends JPanel {
     }
     public void restartGame(){
         gameBoard.restartGame();
+        player.hearts = 3;
     }
 }
